@@ -4,7 +4,7 @@ module Blockchain where
 
 import Data.Time (getCurrentTime, UTCTime)
 import Data.ByteString.Char8 (pack)
-import Crypto.Hash (Digest, SHA256, hash)
+import Crypto.Hash
 import GHC.Generics (Generic)
 import Data.List (find)
 
@@ -24,7 +24,7 @@ hashBlock block =
                       show (timestamp block) ++
                       dataContent block ++
                       previousHash block
-    in show (hash (pack blockString) :: Digest SHA256)
+    in show (hashWith SHA256 (pack blockString))
 
 -- Genesis block
 createGenesisBlock :: IO Block
