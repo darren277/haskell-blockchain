@@ -17,10 +17,10 @@
 #
 # snapshot: ./custom-snapshot.yaml
 # snapshot: https://example.com/snapshots/2024-01-01.yaml
-##snapshot:
-##  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/1.yaml
+#snapshot:
+#  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/1.yaml
 
-#resolver: nightly-2024-12-21
+#resolver: nightly-2024-12-24
 #resolver: ghc-9.6.1
 resolver: ghc-8.8.4
 
@@ -44,13 +44,20 @@ packages:
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
 #
-extra-deps:
-  - Spock-0.14.0.0
-  - Spock-core-0.14.0.1
-  - mtl-2.3.1
-  - aeson-2.2.3.0
+#constraints: mtl == 2.2.2
 
-#allow-newer: true
+#extra-deps:
+  #- Spock-0.14.0.0
+  #- Spock-core-0.14.0.1
+  #- mtl-2.3.1
+  #- aeson-2.2.3.0
+  #- mtl-2.2.2
+  #- superbuffer-0.3.1.2
+  #- time-1.12
+  #- transformers-0.5.6.2
+  #- semigroupoids-5.3.4
+
+allow-newer: true
 
 # allow-newer-deps:
 #   - semigroupoids
