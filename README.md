@@ -65,7 +65,8 @@ Build project:
 `stack build`
 
 Run project:
-`stack exec haskell-blockchain-exe`
+~~`stack exec haskell-blockchain-exe`~~
+`stack run`
 
 Replace haskell-blockchain-exe with the name of your executable defined in the Cabal file if you are using a different name.
 
