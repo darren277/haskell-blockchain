@@ -18,20 +18,27 @@ extra-source-files:  README.md
 library
   exposed-modules:     Blockchain
   hs-source-dirs:      src
-  build-depends:       base >= 4.7 && < 5,
-                       time,
-                       cryptonite,
-                       bytestring,
-                       Spock >= 0.14.0.0,
-                       aeson >= 2.2.3
+  build-depends:       base >= 4.0 && < 5,
+                       time >= 1.9 && < 2,
+                       crypton >= 0.2 && < 1,
+                       bytestring >= 0.10 && < 1,
+                       http-types,
+                       Spock,
+                       aeson
   default-language:    Haskell2010
 
 executable haskell-blockchain
   hs-source-dirs:      app, src
   main-is:             Main.hs
   default-language:    Haskell2010
-  build-depends:       base >= 4.7 && < 5,
-                       haskell-blockchain
+  build-depends:       base >= 4.0 && < 5,
+                       haskell-blockchain,
+                       time >= 1.9 && < 2,
+                       crypton >= 0.2 && < 1,
+                       bytestring >= 0.10 && < 1,
+                       http-types,
+                       Spock,
+                       aeson
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
