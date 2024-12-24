@@ -1,8 +1,4 @@
-# Some initial plans (with help from GPT):
-
-To structure your Haskell blockchain prototype project efficiently and execute the program, follow these steps, which will help you organize your code, manage dependencies, and run your application.
-
-# 1. Directory Structure
+# Directory Structure
 
 Here's a suggested directory structure:
 ```
@@ -11,6 +7,7 @@ haskell-blockchain/
 │   └── Main.hs
 ├── src/
 │   └── Blockchain.hs
+|   └── Web.hs
 ├── test/
 │   └── Spec.hs
 ├── haskell-blockchain.cabal
@@ -20,12 +17,13 @@ haskell-blockchain/
 
 `app/Main.hs`: The entry point of your application. It will import your blockchain module from src/ and run the main application logic.
 `src/Blockchain.hs`: Contains the blockchain logic, including data structures and functions for creating and manipulating the blockchain.
+`src/Web.hs`: Contains the REST Web API for interacting with our blockchain.
 `test/Spec.hs`: For any tests you want to write using a framework like Hspec.
-h`askell-blockchain.cabal`: Cabal file describing your application's properties, dependencies, and build information.
-`stack.yaml`: (Optional) If you're using Stack, this file will configure the project's stack tool settings.
+`haskell-blockchain.cabal`: Cabal file describing your application's properties, dependencies, and build information.
+~~`stack.yaml`: (Optional) If you're using Stack, this file will configure the project's stack tool settings.~~
 `Setup.hs`: Used by Cabal, typically a boilerplate file for simple projects.
 
-# 2. Initializing the Project
+# Initializing the Project (Done)
 
 You can initialize the project using either Cabal or Stack. These tools help manage dependencies, build processes, and package configurations.
 
@@ -45,11 +43,7 @@ Navigate to project directory and run:
 This command creates a new project using the "simple" template.
 Update the stack.yaml and haskell-blockchain.cabal files with your project's dependencies.
 
-# 3. Writing the Program
-Populate src/Blockchain.hs with your blockchain logic.
-Implement the main application logic in app/Main.hs, which will interact with your blockchain.
-
-# 4. Building and Running the Project
+# Building and Running the Project
 
 ## Using Cabal
 
@@ -59,24 +53,49 @@ Build project:
 Run project:
 `cabal run`
 
-## Using Stack
+## ~~Using Stack~~
 
-Build project:
-`stack build`
+~~Build project:~~
+~~`stack build`~~
 
-Run project:
+~~Run project:~~
 ~~`stack exec haskell-blockchain-exe`~~
-`stack run`
+~~`stack run`~~
 
 Replace haskell-blockchain-exe with the name of your executable defined in the Cabal file if you are using a different name.
 
-# 5. Next Steps
-As you develop, you might add or modify functions in Blockchain.hs.
+# Assorted Notes
 
-Consider adding a simple CLI (Command Line Interface) to interact with your blockchain, using libraries like optparse-applicative.
+## Cautionary Tales
 
-Expand your test suite in test/Spec.hs to ensure your blockchain behaves as expected under different conditions.
+Dependency conflicts can be particularly brutal with Haskell.
 
+After a whole lot of trial and error (mostly error) with `stack`, I would up switching to `cabal`.
 
-This structure and setup guide gives you a foundational start. As you progress, you might find ways to refine and expand your project based on your learning and the project's evolving requirements.
+Even with `cabal`, I went through a few learning lessons to get things off the ground.
 
+One thing to take note of: The `build-depends` sections of both the `library` and `executable` have to match. I spent way too much time trying to figure out why some of my dependencies simply were not being recognized.
+
+Also, take note of some of the CLI commands in the following section in case you need to use a specific version of GHC, etc.
+
+## Some CLI Commands
+
+```shell
+stack exec -- ghc-pkg list
+
+stack setup --resolver ghc-8.8.4
+
+$env:GHC_PACKAGE_PATH = "C:\Users\Darren\AppData\Local\Programs\stack\x86_64-windows\ghc-9.10.1\lib\package.conf.d"
+echo $env:GHC_PACKAGE_PATH
+
+# To unset:
+$env:GHC_PACKAGE_PATH=""
+
+stack exec -- cabal init
+```
+
+```shell
+ghcup install ghc 8.8.4
+ghcup set ghc 8.8.4
+$env:PATH = "C:\ghcup\bin;" + $env:PATH
+```
