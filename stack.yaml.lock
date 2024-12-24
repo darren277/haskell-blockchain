@@ -3,11 +3,33 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
-snapshots:
+packages:
 - completed:
-    sha256: 18514ff1ed00330c922bd8d28d88a54670a9849f17eb07dc78391a94d576749d
-    size: 678854
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/1.yaml
+    hackage: Spock-0.14.0.0@sha256:7e86ccc9e66ce0fdb84d1dcd328f852d3754c2dbfcb60d0e7e2f1cce2f32f177,3681
+    pantry-tree:
+      sha256: 6829dae9ba2492fae3e447afe13013dd863bd48fd5b8addfa74fc55d979de7b2
+      size: 1118
   original:
-    url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/1.yaml
+    hackage: Spock-0.14.0.0
+- completed:
+    hackage: Spock-core-0.14.0.1@sha256:4a001b992e1acc7f283c21f8964924436939c578a82dae71726002dee0eea927,3590
+    pantry-tree:
+      sha256: 7360de2b3518d2714044513f5fd5d712eb13ef7a36222eafa77f158a3a6102c2
+      size: 1113
+  original:
+    hackage: Spock-core-0.14.0.1
+- completed:
+    hackage: mtl-2.3.1@sha256:5377696d7315e2ef31a8d15d67b22d733c20cac2caf8b26756ff8524c8217e6d,1868
+    pantry-tree:
+      sha256: ac3cf1dc9ef397512d4bf8f2c3fbe4d64fb8aabd253288b34bf86c09ae234d4f
+      size: 1853
+  original:
+    hackage: mtl-2.3.1
+- completed:
+    hackage: aeson-2.2.3.0@sha256:011fa2d67d7a821aa5ec5c825adc919bb067d42dde8fac7c6e5db23239a58866,6589
+    pantry-tree:
+      sha256: e928995a568c7437575160844341219a5b057fc8e27f51162da8595692e2500c
+      size: 83371
+  original:
+    hackage: aeson-2.2.3.0
+snapshots: []
