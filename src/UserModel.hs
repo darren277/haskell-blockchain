@@ -4,7 +4,7 @@
 module UserModel where
 
 import GHC.Generics (Generic)
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson (FromJSON(..), ToJSON(..), (.:), (.=), withObject, object)
 import Database.PostgreSQL.Simple (Connection, query, execute, Query(..))
 import Database.PostgreSQL.Simple.FromField (FromField, fromField) 
 import Database.PostgreSQL.Simple.FromRow (FromRow(fromRow), field)
@@ -23,12 +23,16 @@ instance FromRow User where
     fromRow = User <$> field <*> field
 
 -- For inserts/updates we might only need the email
-data NewUser = NewUser
-    { newEmail :: Text
-    } deriving (Show, Generic)
+data NewUser = NewUser {
+    newEmail :: Text
+} deriving Show
 
-instance FromJSON NewUser
-instance ToJSON NewUser
+instance FromJSON NewUser where
+    parseJSON = withObject "NewUser" $ \v -> 
+        NewUser <$> v .: "email"
+
+instance ToJSON NewUser where
+    toJSON (NewUser email) = object ["email" .= email]
 
 -- Insert helper (returns the newly created row)
 insertUser :: Connection -> Text -> IO User
