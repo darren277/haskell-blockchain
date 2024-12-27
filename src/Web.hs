@@ -41,6 +41,8 @@ app = do
 -- Update pattern match:
 appRoutes :: Api
 appRoutes = do
+    get root $ text "Hello, world!"
+    
     get "blocks" $ do
        AppState ref pool <- getState  -- Add pool here
        chain <- liftIO $ readIORef ref
