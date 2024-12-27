@@ -11,6 +11,8 @@ import qualified Data.Text as T
 import Data.Pool (Pool)
 import qualified Database.PostgreSQL.Simple as PG
 import Web.Spock (SpockM, ActionCtxT)
+import Data.Aeson ((.=), object)
+import Data.Text (Text)
 import Network.HTTP.Types.Status (status404)
 
 import Blockchain (Block)
@@ -46,7 +48,7 @@ userRoutes pool = do
             getUserById conn userId
         case maybeUser of
             Just user -> json user
-            Nothing   -> setStatus status404 >> text "User not found"
+            Nothing   -> setStatus status404 >> json (object ["error" .= ("User not found" :: Text)])
 
     -- PUT /users/:id
     put ("users" <//> var) $ \userId -> do
@@ -55,12 +57,12 @@ userRoutes pool = do
             updateUser conn userId (newEmail newUserData)
         case maybeUpdated of
             Just user -> json user
-            Nothing   -> setStatus status404 >> text "User not found"
+            Nothing   -> setStatus status404 >> json (object ["error" .= ("User not found" :: Text)])
 
     -- DELETE /users/:id
     delete ("users" <//> var) $ \userId -> do
         deleted <- liftIO $ withConn pool $ \conn ->
             deleteUser conn userId
         if deleted
-            then text "User deleted"
-            else setStatus status404 >> text "User not found"
+            then json $ object ["id" .= userId]
+            else setStatus status404 >> json (object ["error" .= ("User not found" :: Text)])
