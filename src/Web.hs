@@ -12,32 +12,44 @@ import GHC.Generics (Generic)
 import Blockchain (Block(..), createGenesisBlock, createBlock, validateChain)
 import Network.HTTP.Types.Status (status400)
 
-type ApiApp = SpockM () () AppState ()
+import qualified Database.PostgreSQL.Simple as PG
+import Data.Pool (Pool)
+import System.Envy (decodeEnv)
 
-data AppState = AppState
-    { blockchain :: IORef [Block]
-    }
+import Database (initDbPool, withConn, DbConfig)
+import WebUserRoutes (Api, userRoutes)
+
+import AppTypes (AppState(..))
+
+type ApiApp = SpockM () () AppState ()
 
 instance ToJSON Block
 instance FromJSON Block
 
 app :: IO ()
 app = do
-    genesis <- createGenesisBlock
-    ref <- newIORef [genesis]
-    spockCfg <- defaultSpockCfg () PCNoDatabase (AppState ref)
-    runSpock 8999 (spock spockCfg appRoutes)
+   genesis <- createGenesisBlock
+   ref <- newIORef [genesis]
+   configResult <- decodeEnv
+   case configResult of
+       Left err -> error $ "Failed to load config: " ++ err
+       Right config -> do
+           pool <- initDbPool config
+           spockCfg <- defaultSpockCfg () PCNoDatabase (AppState ref pool)
+           runSpock 8999 (spock spockCfg appRoutes)
 
--- Define API routes
-appRoutes :: SpockM () () AppState ()
+-- Update pattern match:
+appRoutes :: Api
 appRoutes = do
+    get root $ text "Hello, world!"
+    
     get "blocks" $ do
-        AppState ref <- getState
-        chain <- liftIO $ readIORef ref
-        json chain
+       AppState ref pool <- getState  -- Add pool here
+       chain <- liftIO $ readIORef ref
+       json chain
 
     post "blocks" $ do
-        AppState ref <- getState
+        AppState ref pool <- getState
         maybeNewData <- jsonBody
         chain <- liftIO $ readIORef ref
         case maybeNewData of
@@ -54,8 +66,11 @@ appRoutes = do
                         json newBlock
 
     get "validate" $ do
-        AppState ref <- getState
+        AppState ref pool <- getState
         chain <- liftIO $ readIORef ref
         if validateChain chain
             then text "Blockchain is valid"
             else text "Blockchain is invalid"
+    
+    AppState _ pool <- getState
+    userRoutes pool

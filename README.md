@@ -99,3 +99,9 @@ ghcup install ghc 8.8.4
 ghcup set ghc 8.8.4
 $env:PATH = "C:\ghcup\bin;" + $env:PATH
 ```
+
+## Testing
+
+`cabal repl`
+`:l src/Database.hs`
+`:t Envy.envMaybe "PG_PORT"`

@@ -24,7 +24,14 @@ library
                        bytestring >= 0.10 && < 1,
                        http-types,
                        Spock,
-                       aeson
+                       Spock-core,
+                       aeson,
+                       postgresql-simple >= 0.6,
+                       postgresql-simple-migration >= 0.1,
+                       containers,
+                       text,
+                       envy,
+                       resource-pool
   default-language:    Haskell2010
 
 executable haskell-blockchain
@@ -38,7 +45,14 @@ executable haskell-blockchain
                        bytestring >= 0.10 && < 1,
                        http-types,
                        Spock,
-                       aeson
+                       Spock-core,
+                       aeson,
+                       postgresql-simple >= 0.6,
+                       postgresql-simple-migration >= 0.1,
+                       containers,
+                       text,
+                       envy,
+                       resource-pool
   ghc-options:         -Wall
                        -Wcompat
                        -Widentities
